@@ -23,3 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import 'cypress-file-upload';
+
+Cypress.Commands.add( 'multiSelect', ( selector , text) => {
+    cy.get(`${selector}`).click();
+    // cy.get(`.ant-select${selector} .ant-select-selection-search input`).clear()
+    cy.get(`${selector}`).invoke('attr', 'id').then((selElm) => {
+      const dropDownSelector = `#${selElm}_list`;
+      cy.get(`${selector}`).type(`${text}`);
+      cy.get(dropDownSelector).next().find('.ant-select-item-option-content').click()
+    })
+  })
